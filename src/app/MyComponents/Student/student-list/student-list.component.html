@@ -1,0 +1,42 @@
+<style>
+    th,td{
+        padding: 5px;
+        text-align: center;
+    }
+    #headings th{
+        cursor: pointer;
+    }
+</style>
+
+
+<p>student-list works!</p>
+<button (click)="fetchData();" >Show Courses</button>
+
+<table border="1" cellSpacing="0">
+    <tr id="headings">
+        <!-- <th *ngFor="let key of getKeys(courseList[0])">
+            {{key}}
+        </th> -->
+        <th (click)="sortCourse('courseId')">courseId</th>
+        <th (click)="sortCourse('courseName')">courseName</th>
+        <th (click)="sortCourse('createdDate')">createdDate</th>
+        <th>createdBy</th>
+        <th (click)="sortCourse('lastModifiedDate')">lastModifiedDate</th>
+        <th>lastModifiedBy</th>
+        <th (click)="sortCourse('isActive')">isActive</th>
+        
+    </tr>
+    <tr *ngFor="let course of courseList">
+        <td>{{course.courseId}}</td>
+        <td>{{course.courseName}}</td>
+        <td>{{course.createdDate}}</td>
+        <td>{{course.createdBy}}</td>
+        <td>{{course.lastModifiedDate}}</td>
+        <td>{{course.lastModifiedBy}}</td>
+        <td>{{course.isActive}}</td>
+    </tr>
+</table>
+
+<input style="margin-top: 50px;" type="text" #courseNameInp/>
+<button (click)="addCourse(courseNameInp.value);">Add Course</button>
+
