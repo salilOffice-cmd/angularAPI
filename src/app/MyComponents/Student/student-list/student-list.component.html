@@ -10,23 +10,23 @@
 
 
 <p>student-list works!</p>
-<button (click)="fetchData();" >Show Courses</button>
+<button (click)="callFetchData();" >Show Courses</button>
 
 <table border="1" cellSpacing="0">
     <tr id="headings">
         <!-- <th *ngFor="let key of getKeys(courseList[0])">
             {{key}}
         </th> -->
-        <th (click)="sortCourse('courseId')">courseId</th>
-        <th (click)="sortCourse('courseName')">courseName</th>
-        <th (click)="sortCourse('createdDate')">createdDate</th>
+        <th (click)="callSortCourse('courseId')">courseId</th>
+        <th (click)="callSortCourse('courseName')">courseName</th>
+        <th (click)="callSortCourse('createdDate')">createdDate</th>
         <th>createdBy</th>
-        <th (click)="sortCourse('lastModifiedDate')">lastModifiedDate</th>
+        <th (click)="callSortCourse('lastModifiedDate')">lastModifiedDate</th>
         <th>lastModifiedBy</th>
-        <th (click)="sortCourse('isActive')">isActive</th>
+        <th (click)="callSortCourse('isActive')">isActive</th>
         
     </tr>
-    <tr *ngFor="let course of courseList">
+    <tr *ngFor="let course of gotAllCourses">
         <td>{{course.courseId}}</td>
         <td>{{course.courseName}}</td>
         <td>{{course.createdDate}}</td>
@@ -38,5 +38,8 @@
 </table>
 
 <input style="margin-top: 50px;" type="text" #courseNameInp/>
-<button (click)="addCourse(courseNameInp.value);">Add Course</button>
+<button (click)="callAddCourse(courseNameInp.value);">Add Course</button>
+
+<input style="margin-top: 50px;" type="text" #courseIDInp/>
+<button (click)="callDeleteCourse(+courseIDInp.value)">Delete Course</button>
 

@@ -1,6 +1,7 @@
+import { CourseAPIService } from './../../../Services/course-api.service';
 import { Component } from '@angular/core';
 import {HttpClient } from '@angular/common/http';
-import { Course } from '../DTOs/getCourse';
+import { Course } from '../../../DTOs/getCourse';
 
 @Component({
   selector: 'app-student-list',
@@ -9,46 +10,41 @@ import { Course } from '../DTOs/getCourse';
 })
 export class StudentListComponent {
 
-  courseList: Course[] = []
+  gotAllCourses: Course[] = [];
   
-  constructor(private http: HttpClient){
+  constructor(private courseAPIService: CourseAPIService){
   }
 
   getKeys(obj: Course): string[]{
     return Object.keys(obj);
   }
 
-
-  fetchData(){
-    this.courseList = [];
-    
-    this.http.get('https://localhost:7246/api/Course/getAll').subscribe((response:any) => {
-      // Handle the response data here
-
-      let gotCourseDtoList:Course[] = response;
-      this.courseList = gotCourseDtoList;
-    });
-  }
-
-  addCourse(_courseName:string){
-    var newCourse = {
-      'courseName' : _courseName
-    }
-
-    this.http.post('https://localhost:7246/api/Course/Add', newCourse).subscribe((response:any) => {
-      console.log(response);
+  callFetchData(){
+    this.courseAPIService.fetchDataAsync().subscribe(response => {
+      this.courseAPIService.setDataArray(response);
+      this.gotAllCourses = this.courseAPIService.courseList;
     })
+  }
+  
+  // callFetchData(){
+  //   this.courseAPIService.fetchData();
+  //   this.gotAllCourses = this.courseAPIService.courseList;
+  // }
+
+  callAddCourse(_courseName: string){
+    this.courseAPIService.addCourse(_courseName);
   }
 
 
-  sortCourse(sortBy: string){
-    this.courseList = [];
+  callSortCourse(sortBy: string){
+    this.courseAPIService.sortCourse(sortBy);
+    this.gotAllCourses = this.courseAPIService.courseList;
+  }
+  
 
-    this.http.get(`https://localhost:7246/api/Course/sort/${sortBy}`).subscribe((response:any) => {
-      let gotCourseDtoList:Course[] = response;
-
-      this.courseList = gotCourseDtoList;
-    })
+  callDeleteCourse(_courseID: number){
+    this.courseAPIService.deleteCourse(_courseID);
+    this.callFetchData();
   }
 
   
